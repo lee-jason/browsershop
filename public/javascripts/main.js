@@ -12,7 +12,11 @@
       socket.emit('playGroup', $('#groupName').val());
     },
     readyUp: function () {
+      // following is to make chrome preload the damn content?
+      $('#audio').trigger('play');
+      $('#audio').trigger('stop');
       socket.emit('readyUp', $('#groupName').val());
+
     },
     startPlaying: function (options) {
       $('body').css('background-color', 'green');

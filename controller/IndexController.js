@@ -37,7 +37,7 @@ var IndexController = {
 			case 'Mozilla':
 				singerResult = singers[2];
 				break;
-			case 'ie':
+			case 'IE':
 				singerResult = singers[3];
 				break;
 			default:
