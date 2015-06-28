@@ -14,7 +14,7 @@
     readyUp: function () {
       // following is to make chrome preload the damn content?
       $('#audio').trigger('play');
-      $('#audio').trigger('stop');
+      $('#audio').trigger('pause');
       socket.emit('readyUp', $('#groupName').val());
 
     },
