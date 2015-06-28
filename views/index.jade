@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to the Browsershop Quartet
+  p Looks like you're coming in from a #{browser} browser, that means you're playing the #{singer}
+  div
+    input(maxLength=5 id="groupName" value='#{groupName}')
+    p share this with your quartet and press ready when you're good to go
+    button(id="ready") ready UP!
+    audio(id="audio" controls)
+      source(src="#{musicURL}" type="audio/mpeg")
+
+    button(id="play") play
