@@ -1,53 +1,76 @@
 (function () {
   var socket = io();
   var parser = new UAParser();
-  var Main = {
-    init: function () {
-      $('#ready').on('click', Main.readyUp);
-      $('#play').on('click', Main.leadOff);
-      $('#audio').trigger('load');
-      socket.on('play', Main.startPlaying);
-    },
-    leadOff: function () {
-      socket.emit('playGroup', $('#groupName').val());
-    },
-    readyUp: function () {
-      // following is to make chrome preload the damn content?
-      $('#audio').trigger('play');
-      $('#audio').trigger('pause');
-      socket.emit('readyUp', $('#groupName').val());
 
-    },
-    startPlaying: function (options) {
-      $('body').css('background-color', 'green');
-      if (parser.getResult().browser.name !== 'Safari') {
-        setTimeout(function () {
-          $('#audio').trigger('play');
-        }, 300);
-      } else {
-        $('#audio').trigger('play');
-      }
-      
-      // var timeToPlay = options.timeToPlay;
+  var Main = function () {};
 
-      // var clock = setInterval(function () {
-      //   if (new Date().getTime() >= timeToPlay) {
-      //     if (parser.getResult().browser.name !== 'Safari') {
-      //       setTimeout(function () {
-      //         $('#audio').trigger('play');
-      //       }, 300);
-      //     } else {
-      //       $('#audio').trigger('play');
-      //     }
-      //     clearInterval(clock);
-      //   }
-      // }, 10)
-      // safari is slow on the trigger buttton so every other browser needs to pause for safari to catch up.
-      
-    }
+  Main.prototype.init = function () {
+    var that = this;
+    $('#ready').on('click', this.readyUp.bind(that));
+    $('#play').on('click', this.leadOff.bind(that));
+    $('#audio').trigger('load');
+    socket.on('play', that.startPlaying.bind(that));
+    socket.on('memberAdded', that.displayMembers.bind(that));
+  };
+
+  Main.prototype.leadOff =function () {
+    socket.emit('playGroup', $('#groupName').val());
   }
 
-  $(document).ready(Main.init);
+  Main.prototype.readyUp = function () {
+    // following is to make chrome preload the damn content?
+    $('#audio').trigger('play');
+    $('#audio').trigger('pause');
+    socket.emit('readyUp', {groupName: $('#groupName').val(), userAgent: navigator.userAgent});
+    this.displayBandName($('#groupName').val());
+  }
 
-  window.Main = Main;
+  Main.prototype.startPlaying = function (options) {
+    $('body').css('background-color', 'green');
+    if (parser.getResult().browser.name !== 'Safari') {
+      setTimeout(function () {
+        $('#audio').trigger('play');
+      }, 300);
+    } else {
+      $('#audio').trigger('play');
+    }
+
+    this._clearMemberList();
+    
+    // var timeToPlay = options.timeToPlay;
+
+    // var clock = setInterval(function () {
+    //   if (new Date().getTime() >= timeToPlay) {
+    //     if (parser.getResult().browser.name !== 'Safari') {
+    //       setTimeout(function () {
+    //         $('#audio').trigger('play');
+    //       }, 300);
+    //     } else {
+    //       $('#audio').trigger('play');
+    //     }
+    //     clearInterval(clock);
+    //   }
+    // }, 10)
+    // safari is slow on the trigger buttton so every other browser needs to pause for safari to catch up.
+    
+  }
+
+  Main.prototype.displayBandName = function (bandName) {
+    $('#bandName').html(bandName);
+  }
+
+  Main.prototype.displayMembers = function (members) {
+    this._clearMemberList();
+    members.forEach(function (memberInfo) {
+      $('.memberList').append($('<li>').html(memberInfo.singer + ': ' + memberInfo.browserName));
+    });
+  }
+
+  Main.prototype._clearMemberList = function () {
+    $('.memberList').children().remove();
+  }
+
+  var main = new Main();
+
+  $(document).ready(main.init.bind(main));
 })();

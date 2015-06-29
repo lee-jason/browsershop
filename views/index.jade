@@ -8,7 +8,8 @@ block content
     input(maxLength=5 id="groupName" value='#{groupName}')
     p share this with your quartet and press ready when you're good to go
     button(id="ready") ready UP!
+    button(id="play") play
     audio(id="audio" controls)
       source(src="#{musicURL}" type="audio/mpeg")
-
-    button(id="play") play
+    p #[span(id="bandName")] Band Members
+    ul(class="memberList")
