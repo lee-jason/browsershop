@@ -5,7 +5,7 @@ var parser = new UAParser();
 // // only one socket can be registered to one group at a time.
 // var registeredSocketId = {}
 var groupNameToMemberList = {}
-var COUNTDOWN_TO_PLAY = 8000;
+var COUNTDOWN_TO_PLAY = 0;
 
 var Controls = function () {}
 
