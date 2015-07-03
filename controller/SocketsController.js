@@ -5,6 +5,7 @@ var parser = new UAParser();
 // // only one socket can be registered to one group at a time.
 // var registeredSocketId = {}
 var groupNameToMemberList = {}
+var COUNTDOWN_TO_PLAY = 6000;
 
 var Controls = function () {}
 
@@ -52,7 +53,7 @@ Controls.prototype.playGroup = function (groupName) {
 	// 	this._removeGroup(socket);
 	// }.bind(this));
 	var timeProcessed = new Date().getTime();
-	io.to(groupName).emit('play', {timesent: timeProcessed, timeToPlay: timeProcessed + 4000});
+	io.to(groupName).emit('play', {timesent: timeProcessed, timeToPlay: timeProcessed + COUNTDOWN_TO_PLAY});
 	this._removeGroup(groupName);
 	delete groupNameToMemberList[groupName];
 }
