@@ -27,7 +27,8 @@
 
   Main.prototype.startPlaying = function (options) {
     $('body').css('background-color', 'green');
-    if (parser.getResult().browser.name !== 'Safari') {
+    if (parser.getResult().browser.name !== 'Safari' || 
+        parser.getResult().browser.name !== 'Mobile Safari') {
       setTimeout(function () {
         $('#audio').trigger('play');
       }, 300);

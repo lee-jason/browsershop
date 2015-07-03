@@ -29,7 +29,7 @@ var IndexController = {
 			case 'Android Browser':
 				singerResult = singers[0];
 				break;
-			case '[Mobile] Safari':
+			case 'Mobile Safari':
 			case 'Safari':
 				singerResult = singers[1];
 				break;
