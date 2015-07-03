@@ -26,34 +26,40 @@
   }
 
   Main.prototype.startPlaying = function (options) {
-    $('body').css('background-color', 'green');
-    if (parser.getResult().browser.name !== 'Safari' || 
-        parser.getResult().browser.name !== 'Mobile Safari') {
-      setTimeout(function () {
-        $('#audio').trigger('play');
-      }, 300);
-    } else {
-      $('#audio').trigger('play');
-    }
-
-    this._clearMemberList();
-    
-    // var timeToPlay = options.timeToPlay;
-
-    // var clock = setInterval(function () {
-    //   if (new Date().getTime() >= timeToPlay) {
-    //     if (parser.getResult().browser.name !== 'Safari') {
-    //       setTimeout(function () {
-    //         $('#audio').trigger('play');
-    //       }, 300);
-    //     } else {
-    //       $('#audio').trigger('play');
-    //     }
-    //     clearInterval(clock);
-    //   }
-    // }, 10)
     // safari is slow on the trigger buttton so every other browser needs to pause for safari to catch up.
+
+    $('body').css('background-color', 'green');
+    // if (parser.getResult().browser.name !== 'Safari' || 
+    //     parser.getResult().browser.name !== 'Mobile Safari') {
+    //   setTimeout(function () {
+    //     $('#audio').trigger('play');
+    //   }, 300);
+    // } else {
+    //   $('#audio').trigger('play');
+    // }
+
     
+    
+    var timeToPlay = options.timeToPlay;
+
+    var clock = setInterval(function () {
+      if (new Date().getTime() >= timeToPlay) {
+        if (parser.getResult().browser.name.indexOf('Safari') !== -1) {
+          console.log('you are not safari wait.. I dunno it seems to work. uufuasdklfj');
+          $('#audio').trigger('play');
+          $('body').css('background-color', 'blue');
+        } else {
+          setTimeout(function () {
+            $('#audio').trigger('play');
+            $('body').css('background-color', 'blue');
+          }, 400);
+        }
+        
+        // $('#audio').trigger('play');
+        clearInterval(clock);
+      }
+    }, 10);
+    this._clearMemberList();
   }
 
   Main.prototype.displayBandName = function (bandName) {
